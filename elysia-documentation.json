@@ -1,0 +1,162 @@
+{
+    "openapi": "3.1.1",
+    "info": {
+        "title": "Elysia Documentation",
+        "description": "Development documentation",
+        "version": "0.0.0"
+    },
+    "paths": {
+        "/api/login": {
+            "post": {
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "username",
+                                    "password"
+                                ],
+                                "additionalProperties": false
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "username",
+                                    "password"
+                                ],
+                                "additionalProperties": false
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "username",
+                                    "password"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "operationId": "postApiLogin"
+            }
+        },
+        "/api/register": {
+            "put": {
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "firstname": {
+                                        "type": "string"
+                                    },
+                                    "lastname": {
+                                        "type": "string"
+                                    },
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "firstname",
+                                    "lastname",
+                                    "username",
+                                    "password"
+                                ]
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "firstname": {
+                                        "type": "string"
+                                    },
+                                    "lastname": {
+                                        "type": "string"
+                                    },
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "firstname",
+                                    "lastname",
+                                    "username",
+                                    "password"
+                                ]
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "firstname": {
+                                        "type": "string"
+                                    },
+                                    "lastname": {
+                                        "type": "string"
+                                    },
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "firstname",
+                                    "lastname",
+                                    "username",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "operationId": "putApiRegister"
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    }
+}

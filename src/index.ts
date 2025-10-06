@@ -1,13 +1,11 @@
-import { Elysia, status, t } from "elysia";
+import { Elysia, t } from "elysia";
 import { openapi } from '@elysiajs/openapi';
-//import {note} from './note';
-import {fetchUsers,password_validation} from './sql';
+import { login_validation, create_user } from './sql';
 
-const app = new Elysia()
+const app = new Elysia({ prefix: "/api" })
   .use(openapi())
-  //.use(note)
-  .get('/fetch',() => fetchUsers())
-  .post('/api/login',({ body : {username,pass}})=> password_validation(username,pass),{body:t.Object({username:t.String(),pass:t.String()})})
+  .post('/login', ({ body: { username, password } }) => login_validation(username, password), { body: t.Object({ username: t.String(), password: t.String() }) })
+  .put('/register', ({ body: { firstname, lastname, username, password } }) => create_user(firstname, lastname, username, password), { body: t.Object({ firstname: t.String(), lastname: t.String(), username: t.String(), password: t.String() }) })
   .listen(3000);
 
 console.log(
