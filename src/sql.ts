@@ -17,17 +17,18 @@ export async function login_validation(username: string, pass: string) {
       }
     }
     return "login faild"
-
   } catch (err) {
     console.error("Error fetching users:", err);
+    return err
   }
 }
-export async function create_user(firstname: string, lastname: string, username: string, password: string,email:string) {
-  const sql_typing = "INSERT INTO users (firstname,lastname,username,hash,email) VALUES (?,?,?,?,?)"
-  const [rows_k] = await connection.execute("SELECT username FROM users WHERE username = ?", [username])
+export async function create_user(firstname: string, lastname: string, username: string, password: string, email: string) {
+  const sql_insert_user = "INSERT INTO users (firstname,lastname,username,hash,email) VALUES (?,?,?,?,?)"
+  const sql_check_user = "SELECT username FROM users WHERE username = ?"
 
+  const [rows_k] = await connection.execute(sql_check_user, [username])
   if (rows_k.length != 1) {
-    const [rows] = await connection.execute(sql_typing, [firstname, lastname, username, await Bun.password.hash(password),email])
+    const [rows] = await connection.execute(sql_insert_user, [firstname, lastname, username, await Bun.password.hash(password), email])
     if (rows.affectedRows === 1) {
       return "register successfully.";
     }
