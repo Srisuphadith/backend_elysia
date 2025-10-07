@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+        <script>
+        function send_login(){
+            var re = {"firstname":"","lastname":"","username":"","password":"","email":""}
+
+            re.firstname = document.forms["login-form"]["firstname"].value;
+            re.lastname = document.forms["login-form"]["lastname"].value;
+            re.email = document.forms["login-form"]["email"].value;
+            re.username = document.forms["login-form"]["username"].value;
+            re.password = document.forms["login-form"]["password"].value;
+            var data = JSON.stringify(re);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("PUT", 'http://localhost:3000/api/register', true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.send(data);
+            
+            xhr.onreadystatechange = ()=>{
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(xhr.responseText);
+                document.getElementById("output").innerText = xhr.responseText;
+            }
+            }
+            return false
+        }
+
+
+    </script>
+</head>
+
+<body>
+
+    <form name = "login-form" onsubmit="return send_login()" method="post" >
+        <input placeholder="firstname" name="firstname">
+        <input placeholder="lastname" name="lastname">
+        <input placeholder="email" name="email">
+        <input placeholder="username" name="username">
+        <input placeholder="password" type="password" name="password">
+        <input type="submit" value="submit">
+    </form>
+    <div id = "output"></div>
+
+
+
+
+
+</body>
+
+</html>
