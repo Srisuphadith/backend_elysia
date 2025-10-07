@@ -7,7 +7,7 @@ const connection = await mysql.createConnection({
   port: 3306,
 });
 
-export async function login_validation(username: string, pass: string) {
+export async function signin(username: string, pass: string) {
   const sql_typing = "SELECT hash FROM users WHERE username = ?"
   try {
     const [rows] = await connection.execute(sql_typing, [username]);
@@ -22,7 +22,7 @@ export async function login_validation(username: string, pass: string) {
     return err
   }
 }
-export async function create_user(firstname: string, lastname: string, username: string, password: string, email: string) {
+export async function register(firstname: string, lastname: string, username: string, password: string, email: string) {
   const sql_insert_user = "INSERT INTO users (firstname,lastname,username,hash,email) VALUES (?,?,?,?,?)"
   const sql_check_user = "SELECT username FROM users WHERE username = ?"
 
