@@ -87,7 +87,7 @@ app.post("/github/webhook", ({ body }) => {
 		console.log("Repository miss match")
 		return
 	}
-	exec('bash ./script.sh', (error, stdout, stderr) => {
+	exec('sh script.sh', (error, stdout, stderr) => {
 		console.log("run git pull script")
 		if (error) {
 			console.error(`exec error: ${error}`);
