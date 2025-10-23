@@ -18,6 +18,7 @@ import { Elysia, t } from 'elysia'
 import { cors } from '@elysiajs/cors'
 import { writeFile } from 'node:fs/promises';
 import { randomBytes } from 'crypto'
+import pkjson from '../package.json' assert { type: 'json' };
 const { exec } = require('child_process');
 
 function randomFileName(original: string) {
@@ -34,7 +35,7 @@ async function storeFile(file: File): Promise<string> {
 
 const app = new Elysia()
 app.use(cors())
-
+// app.get("/test",()=>console.log(pkjson.name))
 app.post("/", ({ body: { auth } }) => {
 	const data = new Object()
 	if (auth == "1234") {
@@ -82,12 +83,12 @@ app.post("/test", () => "Hello world")
 app.listen(3000)
 //github auto ref
 app.post("/github/webhook", ({ body }) => {
-	console.log(body.repository.name)
-	if(body.repository.name != "backend_elysia"){
+	if (body.repository.name != pkjson.name) {
 		console.log("Repository miss match")
 		return
 	}
 	exec('git pull', (error, stdout, stderr) => {
+		console.log("run git pull script")
 		if (error) {
 			console.error(`exec error: ${error}`);
 			return
@@ -96,7 +97,6 @@ app.post("/github/webhook", ({ body }) => {
 		if (stderr) {
 			console.error(`stderr: ${stderr}`);
 		}
-
 	})
 })
 
