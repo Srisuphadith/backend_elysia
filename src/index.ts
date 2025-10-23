@@ -81,7 +81,7 @@ app.post(
 )
 app.post("/test", () => "Hello world")
 app.listen(3000)
-//github auto ref
+//github auto refresh
 app.post("/github/webhook", ({ body }) => {
 	if (body.repository.name != pkjson.name) {
 		console.log("Repository miss match")
