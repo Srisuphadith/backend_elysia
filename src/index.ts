@@ -39,8 +39,8 @@ app.post("/", ({ body: { auth } }) => {
 	const data = new Object()
 	if (auth == "1234") {
 
-		data.firstname = "hiura"
-		data.lastname = "mihate"
+		data.firstname = "srisuphadith"
+		data.lastname = "Rattanaprasert"
 		data.isAuth = 1
 		return data
 	}
