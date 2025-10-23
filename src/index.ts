@@ -18,6 +18,7 @@ import { Elysia, t } from 'elysia'
 import { cors } from '@elysiajs/cors'
 import { writeFile } from 'node:fs/promises';
 import { randomBytes } from 'crypto'
+const { exec } = require('child_process');
 
 function randomFileName(original: string) {
 	const ext = original.split('.').pop() ?? '';
@@ -25,7 +26,6 @@ function randomFileName(original: string) {
 	return `${Date.now()}-${Math.round(Math.random() * 1e6)}.${ext}`;
 }
 async function storeFile(file: File): Promise<string> {
-	// 1️⃣  Get raw bytes
 	const buffer = Buffer.from(await file.arrayBuffer());
 	const path = `./uploads/${randomFileName(file.name)}`;
 	await writeFile(path, buffer);
@@ -34,12 +34,13 @@ async function storeFile(file: File): Promise<string> {
 
 const app = new Elysia()
 app.use(cors())
+
 app.post("/", ({ body: { auth } }) => {
 	const data = new Object()
 	if (auth == "1234") {
 
-		data.firstname = "Srisuphadith"
-		data.lastname = "Rattanaprasert"
+		data.firstname = "hiura"
+		data.lastname = "mihate"
 		data.isAuth = 1
 		return data
 	}
@@ -77,6 +78,26 @@ app.post(
 		})
 	}
 )
+app.post("/test", () => "Hello world")
 app.listen(3000)
+//github auto ref
+app.post("/github/webhook", ({ body }) => {
+	console.log(body.repository.name)
+	if(body.repository.name != "backend_elysia"){
+		console.log("Repository miss match")
+		return
+	}
+	exec('git pull', (error, stdout, stderr) => {
+		if (error) {
+			console.error(`exec error: ${error}`);
+			return
+		}
+		console.log(`stdout: ${stdout}`);
+		if (stderr) {
+			console.error(`stderr: ${stderr}`);
+		}
+
+	})
+})
 
 console.log('Listening on http://localhost:3000')
