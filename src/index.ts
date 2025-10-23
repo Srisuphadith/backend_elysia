@@ -14,11 +14,12 @@
 // console.log(
 //   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
 // );
-import { Elysia, t } from 'elysia'
+import { Elysia, status, t } from 'elysia'
 import { cors } from '@elysiajs/cors'
 import { writeFile } from 'node:fs/promises';
 import { randomBytes } from 'crypto'
-import pkjson from '../package.json' assert { type: 'json' };
+import pkjson from '../package.json' assert { type: 'json' }
+import { bearer } from "@elysiajs/bearer";
 const { exec } = require('child_process');
 
 function randomFileName(original: string) {
@@ -35,7 +36,7 @@ async function storeFile(file: File): Promise<string> {
 
 const app = new Elysia()
 app.use(cors())
-// app.get("/test",()=>console.log(pkjson.name))
+app.use(bearer())
 app.post("/", ({ body: { auth } }) => {
 	const data = new Object()
 	if (auth == "1234") {
@@ -79,7 +80,22 @@ app.post(
 		})
 	}
 )
-app.post("/test", () => "Hello world")
+app.get("/test", () => {
+	return {
+		"isAuthorized": true,
+		"access": true
+	}
+
+}, {
+	beforeHandle({ bearer, set, status }) {
+		if (!bearer || (bearer != "hiura")) {
+			set.headers[
+				`WWW-Authenticate`
+			] = `Bearer realm='sign',error="invalid_request"`
+			return status(400, 'Unauthorized')
+		}
+	}
+})
 app.listen(3000)
 //github auto refresh
 app.post("/github/webhook", ({ body }) => {

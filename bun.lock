@@ -5,6 +5,7 @@
       "name": "elysia",
       "dependencies": {
         "@bogeychan/elysia-oauth2": "^0.1.0",
+        "@elysiajs/bearer": "^1.4.1",
         "@elysiajs/cors": "^1.4.0",
         "@elysiajs/openapi": "^1.4.11",
         "elysia": "latest",
@@ -18,6 +19,8 @@
   },
   "packages": {
     "@bogeychan/elysia-oauth2": ["@bogeychan/elysia-oauth2@0.1.0", "", { "peerDependencies": { "elysia": ">= 1.2.12" } }, "sha512-VEwuJYuEYYO4FHMeqhpoQz0Gj/kMhL1kL2aHl2vRkSxfSFTBxqCOD1yXH/yIeKYyYhLSWiN73eoPskcO12n9hQ=="],
+
+    "@elysiajs/bearer": ["@elysiajs/bearer@1.4.1", "", { "peerDependencies": { "elysia": ">= 1.4.0" } }, "sha512-vLLSMEVsLKp/8p/eoAbXZdXKRs1jEQO4OkrfcKM2x8FkiK2aKNcFgLID45bH+6rYbCf8Ihg0NKw59zxMLl43OQ=="],
 
     "@elysiajs/cors": ["@elysiajs/cors@1.4.0", "", { "peerDependencies": { "elysia": ">= 1.4.0" } }, "sha512-pb0SCzBfFbFSYA/U40HHO7R+YrcXBJXOWgL20eSViK33ol1e20ru2/KUaZYo5IMUn63yaTJI/bQERuQ+77ND8g=="],
 
