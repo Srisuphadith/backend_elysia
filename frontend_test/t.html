@@ -9,12 +9,30 @@
 
 <body>
     <script>
-        fetch("http://localhost:3000/auth",
+        async function calculateSHA256Hash(message) {
+            const textEncoder = new TextEncoder();
+            const data = textEncoder.encode(message); // Encode the string to a Uint8Array
+
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data); // Calculate the hash
+
+            const hashArray = Array.from(new Uint8Array(hashBuffer)); // Convert buffer to byte array
+            const hexHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // Convert bytes to hex string
+            x = hexHash
+            return hexHash;
+        }
+        async function send_auth(){
+            
+            const data = await calculateSHA256Hash("1234")
+            const res = await fetch("http://localhost:3000/auth",
             {
                 method: "POST",
-                headers: { "Authorization": `Basic ${btoa("Nine:1234")}` }
+                headers: { "Authorization": `Basic ${btoa(`Nine:${data}`)}` }
             })
-            .then((res) => console.log(res.ok))
+            console.log(res.status+" "+res.statusText)
+        }
+        send_auth()
+
+            
     </script>
 </body>
 

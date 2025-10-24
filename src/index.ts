@@ -72,9 +72,7 @@ app.post(
 	},
 	{
 		body: t.Object({
-			// Optional text field
 			title: t.Optional(t.String()),
-			// 👉 Single file – accepts any image MIME type
 			image: t.File({ accept: ['image/*'] })
 			// If you want to allow *multiple* images:
 			// images: t.Files({ accept: ['image/*'] })
@@ -117,11 +115,11 @@ app.post("/github/webhook", ({ body }) => {
 		}
 	})
 })
-app.post("/auth/:id",async({body,request})=>{
+app.post("/auth",async({body,request})=>{
 	//console.log(body)
 	const authData = await request.headers.toJSON().authorization.split(" ")[1]
 	//console.log(request)
-	console.log(authData)
+	//console.log(authData)
 	console.log(atob(authData).split(":"))
 })
 app.listen(3000)
