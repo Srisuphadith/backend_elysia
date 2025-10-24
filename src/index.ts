@@ -20,6 +20,7 @@ import { writeFile } from 'node:fs/promises';
 import { randomBytes } from 'crypto'
 import pkjson from '../package.json' assert { type: 'json' }
 import { bearer } from "@elysiajs/bearer";
+import { request } from 'node:http';
 const { exec } = require('child_process');
 
 function randomFileName(original: string) {
@@ -96,7 +97,7 @@ app.get("/test", () => {
 		}
 	}
 })
-app.listen(3000)
+
 //github auto refresh
 app.post("/github/webhook", ({ body }) => {
 	if (body.repository.name != pkjson.name) {
@@ -116,5 +117,13 @@ app.post("/github/webhook", ({ body }) => {
 		}
 	})
 })
+app.post("/auth/:id",async({body,request})=>{
+	//console.log(body)
+	const authData = await request.headers.toJSON().authorization.split(" ")[1]
+	//console.log(request)
+	console.log(authData)
+	console.log(atob(authData).split(":"))
+})
+app.listen(3000)
 
 console.log('Listening on http://localhost:3000')
