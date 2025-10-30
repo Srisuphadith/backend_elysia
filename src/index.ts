@@ -20,6 +20,7 @@ import { writeFile } from 'node:fs/promises';
 import { randomBytes } from 'crypto'
 import pkjson from '../package.json' assert { type: 'json' }
 import { bearer } from "@elysiajs/bearer";
+import { jwt } from "@elysiajs/jwt"
 import { request } from 'node:http';
 const { exec } = require('child_process');
 
@@ -37,7 +38,50 @@ async function storeFile(file: File): Promise<string> {
 
 const app = new Elysia()
 app.use(cors())
+app.use(
+	jwt({
+		name: "jwt",
+		secret: "Your secret",
+		cookie: {
+			name: "auth",
+			httpOnly: true,
+			path: '/',
+			maxAge: 2 * 24 * 60 * 60,
+		},
+	})
+)
 app.use(bearer())
+app.post('/login', async ({ jwt, body, cookie }) => {
+	const payload = { userId: body.username }
+	const token = await jwt.sign(payload)
+	cookie.auth.set({
+		value: token,
+		httpOnly: true,
+		maxAge: 2 * 24 * 60 * 60,
+	})
+	return { token }
+}, {
+	body:t.Object( {
+		username: t.String(),
+		password: t.String(),
+	},)
+})
+app.get('/profile',async({jwt,cookie,headers,error})=>{
+	let token = cookie.auth.value
+	
+
+	if(!token && headers.authorization?.startsWith('Bearer '))
+		token = headers.authorization.split('')[1]
+	if(!token) return {error:"Unauthorization"}
+	if(!token) return error('Unauthorized',401)
+	const payload = await jwt.verify(token)
+	if(!payload) return error('Invalid token', 401)
+	return {message:`Hello ${payload.userId}!`}
+})
+app.get('/logout',({cookie})=>{
+	cookie.auth.remove()
+	return {message:"Logout successfully"}
+})
 app.post("/", ({ body: { auth } }) => {
 	const data = new Object()
 	if (auth == "1234") {
@@ -115,7 +159,7 @@ app.post("/github/webhook", ({ body }) => {
 		}
 	})
 })
-app.post("/auth",async({body,request})=>{
+app.post("/auth", async ({ body, request }) => {
 	//console.log(body)
 	const authData = await request.headers.toJSON().authorization.split(" ")[1]
 	//console.log(request)

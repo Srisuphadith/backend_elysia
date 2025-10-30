@@ -9,6 +9,7 @@
     "@bogeychan/elysia-oauth2": "^0.1.0",
     "@elysiajs/bearer": "^1.4.1",
     "@elysiajs/cors": "^1.4.0",
+    "@elysiajs/jwt": "^1.4.0",
     "@elysiajs/openapi": "^1.4.11",
     "elysia": "latest",
     "mysql2": "^3.15.1"
